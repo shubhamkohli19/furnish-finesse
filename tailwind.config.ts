@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				wood: {
+					warm: 'hsl(var(--wood-warm))',
+					light: 'hsl(var(--wood-light))',
+					dark: 'hsl(var(--wood-dark))'
+				},
+				cream: 'hsl(var(--cream))',
+				sage: 'hsl(var(--sage))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -67,6 +74,14 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backgroundImage: {
+				'gradient-warm': 'var(--gradient-warm)',
+				'gradient-hero': 'var(--gradient-hero)'
+			},
+			boxShadow: {
+				elegant: 'var(--shadow-elegant)',
+				card: 'var(--shadow-card)'
 			},
 			keyframes: {
 				'accordion-down': {
