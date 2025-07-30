@@ -12,11 +12,6 @@ const Footer = () => {
             <p className="text-gray-300 mb-4">
               Crafting beautiful, sustainable furniture for your home. Quality wood pieces that last a lifetime.
             </p>
-            <div className="flex space-x-4">
-              <Facebook className="h-5 w-5 hover:text-wood-light cursor-pointer transition-colors" />
-              <Instagram className="h-5 w-5 hover:text-wood-light cursor-pointer transition-colors" />
-              <Twitter className="h-5 w-5 hover:text-wood-light cursor-pointer transition-colors" />
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -79,15 +74,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-wood-light" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <span className="text-gray-300">+91 97804 53630</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-wood-light" />
-                <span className="text-gray-300">info@woodcraft.com</span>
+                <span className="text-gray-300">furniturehouse34@gmail.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-wood-light" />
-                <span className="text-gray-300">123 Furniture St, City, State</span>
+                <span className="text-gray-300">Shivjot Enclave, Kharar</span>
               </div>
             </div>
           </div>

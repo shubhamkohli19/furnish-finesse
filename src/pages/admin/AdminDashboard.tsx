@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Package, 
   Users, 
@@ -152,10 +151,20 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your store.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Admin Dashboard</h1>
+              <p className="text-muted-foreground">
+                Welcome back! Here's what's happening with your store.
+              </p>
+            </div>
+            <Button asChild variant="furniture" size="lg">
+              <Link to="/admin/products">
+                <Package className="h-5 w-5 mr-2" />
+                Product Management
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -181,132 +190,63 @@ const AdminDashboard = () => {
           ))}
         </div>
 
-        {/* Main Content */}
-        <Tabs defaultValue="orders" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="orders">Recent Orders</TabsTrigger>
-            <TabsTrigger value="products">Product Management</TabsTrigger>
-          </TabsList>
-
-          {/* Recent Orders Tab */}
-          <TabsContent value="orders">
-            <Card className="shadow-card">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>Recent Orders</CardTitle>
-                  <CardDescription>
-                    Latest orders from your customers
-                  </CardDescription>
-                </div>
-                <Button variant="outline">
-                  <Eye className="h-4 w-4 mr-2" />
-                  View All
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentOrders.map((order) => (
-                    <div
-                      key={order.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-4">
-                          <div>
-                            <p className="font-medium">{order.id}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {order.customer}
-                            </p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm font-medium">{order.items} items</p>
-                            <p className="text-xs text-muted-foreground">Items</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm font-medium">${order.total}</p>
-                            <p className="text-xs text-muted-foreground">Total</p>
-                          </div>
-                          <div>
-                            {getStatusBadge(order.status)}
-                          </div>
-                        </div>
+        {/* Recent Orders */}
+        <Card className="shadow-card">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Recent Orders</CardTitle>
+              <CardDescription>
+                Latest orders from your customers
+              </CardDescription>
+            </div>
+            <Button asChild variant="outline">
+              <Link to="/admin/orders">
+                <Eye className="h-4 w-4 mr-2" />
+                View All Orders
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4">
+                      <div>
+                        <p className="font-medium">{order.id}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {order.customer}
+                        </p>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon">
-                          <Edit className="h-4 w-4" />
-                        </Button>
+                      <div className="text-center">
+                        <p className="text-sm font-medium">{order.items} items</p>
+                        <p className="text-xs text-muted-foreground">Items</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm font-medium">${order.total}</p>
+                        <p className="text-xs text-muted-foreground">Total</p>
+                      </div>
+                      <div>
+                        {getStatusBadge(order.status)}
                       </div>
                     </div>
-                  ))}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Product Management Tab */}
-          <TabsContent value="products">
-            <Card className="shadow-card">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle>Product Management</CardTitle>
-                  <CardDescription>
-                    Manage your furniture inventory
-                  </CardDescription>
-                </div>
-                <Button variant="furniture">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Product
-                </Button>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-4">
-                          <div>
-                            <p className="font-medium">{product.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {product.category}
-                            </p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm font-medium">${product.price}</p>
-                            <p className="text-xs text-muted-foreground">Price</p>
-                          </div>
-                          <div className="text-center">
-                            <p className="text-sm font-medium">{product.stock}</p>
-                            <p className="text-xs text-muted-foreground">Stock</p>
-                          </div>
-                          <div>
-                            {getProductStatusBadge(product.status)}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="text-red-600 hover:text-red-700">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

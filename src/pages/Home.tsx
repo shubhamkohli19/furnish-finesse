@@ -89,7 +89,7 @@ const Home = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="hero" className="border-white text-wood-dark hover:bg-white hover:text-wood-dark">
+            <Button asChild variant="outline" size="hero" className="border-white text-wood-dark hover:bg-white hover:text-black">
               <Link to="/about">
                 Our Story
               </Link>
@@ -153,7 +153,7 @@ const Home = () => {
           <p className="text-xl mb-8 text-gray-200">
             Join thousands of happy customers who have transformed their homes with our furniture
           </p>
-          <Button asChild variant="outline" size="hero" className="border-white text-wood-light hover:bg-white hover:text-wood-dark">
+          <Button asChild variant="outline" size="hero" className="border-white text-wood-dark hover:bg-white hover:text-black">
             <Link to="/products">
               Start Shopping
             </Link>
