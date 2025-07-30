@@ -20,43 +20,45 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <Card className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1">
-      <div className="relative overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-        />
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button size="icon" variant="secondary" className="mb-2">
-            <Heart className="h-4 w-4" />
-          </Button>
-        </div>
-        <div className="absolute top-4 left-4">
-          {!product.inStock && (
-            <Badge variant="destructive">Out of Stock</Badge>
-          )}
-          {product.inStock && (
-            <Badge variant="secondary">{product.category}</Badge>
-          )}
-        </div>
-      </div>
-      
-      <CardContent className="p-4">
-        <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-          {product.name}
-        </h3>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl font-bold text-primary">
-            ${product.price}
-          </span>
-          <div className="flex items-center">
-            <span className="text-sm text-muted-foreground">
-              ★ {product.rating}
-            </span>
+    <Card className="group hover:shadow-elegant transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+      <Link to={`/products/${product.id}`} className="block">
+        <div className="relative overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button size="icon" variant="secondary" className="mb-2">
+              <Heart className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="absolute top-4 left-4">
+            {!product.inStock && (
+              <Badge variant="destructive">Out of Stock</Badge>
+            )}
+            {product.inStock && (
+              <Badge variant="secondary">{product.category}</Badge>
+            )}
           </div>
         </div>
-      </CardContent>
+        
+        <CardContent className="p-4">
+          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+            {product.name}
+          </h3>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-2xl font-bold text-primary">
+              ${product.price}
+            </span>
+            <div className="flex items-center">
+              <span className="text-sm text-muted-foreground">
+                ★ {product.rating}
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Link>
       
       <CardFooter className="p-4 pt-0 space-x-2">
         <Button 

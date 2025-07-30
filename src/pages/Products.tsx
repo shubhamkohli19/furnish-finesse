@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,10 +11,19 @@ import tableImage from '@/assets/table-1.jpg';
 import sofaImage from '@/assets/sofa-1.jpg';
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
+
+  // Handle URL parameters for category filtering
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category');
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [searchParams]);
 
   // Sample products data
   const allProducts = [
@@ -71,6 +81,60 @@ const Products = () => {
       rating: 4.9,
       inStock: true,
     },
+    {
+      id: '7',
+      name: 'Queen Size Bed Frame',
+      price: 799,
+      image: chairImage, // Using chair image as placeholder
+      category: 'beds',
+      rating: 4.8,
+      inStock: true,
+    },
+    {
+      id: '8',
+      name: 'King Size Bed Frame',
+      price: 999,
+      image: chairImage, // Using chair image as placeholder
+      category: 'beds',
+      rating: 4.9,
+      inStock: true,
+    },
+    {
+      id: '9',
+      name: 'Comfort Bean Bag Chair',
+      price: 149,
+      image: chairImage, // Using chair image as placeholder
+      category: 'bean-bags',
+      rating: 4.6,
+      inStock: true,
+    },
+    {
+      id: '10',
+      name: 'Large Bean Bag Sofa',
+      price: 299,
+      image: chairImage, // Using chair image as placeholder
+      category: 'bean-bags',
+      rating: 4.7,
+      inStock: true,
+    },
+    {
+      id: '11',
+      name: 'Side Table',
+      price: 199,
+      image: tableImage,
+      category: 'tables',
+      rating: 4.5,
+      inStock: true,
+    },
+    {
+      id: '12',
+      name: 'Leather Recliner Sofa',
+      price: 1599,
+      image: sofaImage,
+      category: 'sofas',
+      rating: 4.8,
+      inStock: true,
+    },
   ];
 
   // Filter products based on search term, category, and price range
@@ -88,9 +152,11 @@ const Products = () => {
 
   const categories = [
     { value: 'all', label: 'All Categories' },
-    { value: 'chairs', label: 'Chairs' },
-    { value: 'tables', label: 'Tables' },
     { value: 'sofas', label: 'Sofas' },
+    { value: 'beds', label: 'Beds' },
+    { value: 'tables', label: 'Tables' },
+    { value: 'bean-bags', label: 'Bean Bags' },
+    { value: 'chairs', label: 'Chairs' },
     { value: 'storage', label: 'Storage' },
   ];
 

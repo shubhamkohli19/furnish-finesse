@@ -9,6 +9,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Categories from "./pages/Categories";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:id" element={<ProductDetail />} />
+              <Route path="/categories" element={<Categories />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />

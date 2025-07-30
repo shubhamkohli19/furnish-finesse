@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   ShoppingCart, 
   Heart, 
@@ -14,7 +15,12 @@ import {
   RotateCcw,
   ArrowLeft,
   Plus,
-  Minus
+  Minus,
+  Check,
+  MapPin,
+  Clock,
+  Users,
+  Award
 } from 'lucide-react';
 import chairImage from '@/assets/chair-1.jpg';
 import tableImage from '@/assets/table-1.jpg';
@@ -24,6 +30,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [activeTab, setActiveTab] = useState('overview');
 
   // Sample product data (in real app, fetch based on id)
   const product = {
@@ -31,32 +38,93 @@ const ProductDetail = () => {
     name: 'Elegant Wooden Chair',
     price: 299,
     originalPrice: 349,
-    images: [chairImage, tableImage, sofaImage],
+    images: [
+      chairImage, 
+      tableImage, 
+      sofaImage,
+      chairImage, // Using same images for demo - in real app these would be different angles
+      tableImage
+    ],
     category: 'Chairs',
     rating: 4.8,
     reviewCount: 124,
     inStock: true,
     stockCount: 15,
-    description: 'This elegant wooden chair combines traditional craftsmanship with modern design. Made from sustainably sourced oak wood, it features a comfortable cushioned seat and ergonomic backrest.',
+    description: 'This elegant wooden chair combines traditional craftsmanship with modern design. Made from sustainably sourced oak wood, it features a comfortable cushioned seat and ergonomic backrest that provides excellent support for long periods of sitting.',
+    longDescription: `Our Elegant Wooden Chair is the perfect blend of timeless design and modern comfort. Each piece is carefully crafted by skilled artisans using traditional woodworking techniques combined with contemporary ergonomic principles.
+
+The chair features a solid oak frame that's been hand-finished with natural oil to enhance the wood's natural beauty while providing lasting protection. The seat cushion is upholstered in premium fabric that's both durable and comfortable, with high-density foam padding that maintains its shape over time.
+
+The ergonomic design ensures proper posture support, making it ideal for dining rooms, home offices, or as an accent piece in any room. The chair's classic silhouette works seamlessly with both traditional and contemporary decor styles.`,
     features: [
-      'Sustainably sourced oak wood',
-      'Ergonomic design for comfort',
-      'Hand-finished with natural oil',
+      'Sustainably sourced oak wood construction',
+      'Ergonomic design for optimal comfort',
+      'Hand-finished with natural oil treatment',
       'Weight capacity: 250 lbs',
-      'Easy assembly required'
+      'Easy assembly with included tools',
+      'Premium fabric upholstery',
+      'High-density foam cushioning',
+      'Classic design fits any decor'
     ],
     specifications: {
       'Dimensions': '18" W x 20" D x 32" H',
       'Weight': '25 lbs',
-      'Material': 'Oak wood, fabric cushion',
+      'Material': 'Oak wood, premium fabric',
       'Color': 'Natural oak with cream cushion',
-      'Assembly': 'Required (tools included)'
-    }
+      'Assembly': 'Required (tools included)',
+      'Weight Capacity': '250 lbs',
+      'Warranty': '5 years',
+      'Origin': 'Handcrafted in USA'
+    },
+    reviews: [
+      {
+        id: 1,
+        user: 'Sarah M.',
+        rating: 5,
+        date: '2024-01-15',
+        title: 'Beautiful and Comfortable',
+        comment: 'This chair exceeded my expectations. The quality is outstanding and it\'s incredibly comfortable. Perfect for our dining room!'
+      },
+      {
+        id: 2,
+        user: 'Michael R.',
+        rating: 4,
+        date: '2024-01-10',
+        title: 'Great Quality',
+        comment: 'Solid construction and beautiful finish. Assembly was straightforward. Very happy with this purchase.'
+      },
+      {
+        id: 3,
+        user: 'Jennifer L.',
+        rating: 5,
+        date: '2024-01-05',
+        title: 'Perfect Addition',
+        comment: 'The chair looks even better in person. The wood grain is beautiful and the cushion is very comfortable. Highly recommend!'
+      }
+    ],
+    relatedProducts: [
+      {
+        id: '2',
+        name: 'Modern Coffee Table',
+        price: 599,
+        image: tableImage,
+        category: 'Tables'
+      },
+      {
+        id: '3',
+        name: 'Comfort Sage Sofa',
+        price: 1299,
+        image: sofaImage,
+        category: 'Sofas'
+      }
+    ]
   };
 
   const handleQuantityChange = (change: number) => {
     setQuantity(Math.max(1, Math.min(product.stockCount, quantity + change)));
   };
+
+  const averageRating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
 
   return (
     <div className="min-h-screen py-8">
@@ -72,76 +140,87 @@ const ProductDetail = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
-          <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-lg bg-gray-100">
+          <div className="space-y-6">
+            {/* Main Image */}
+            <div className="aspect-square overflow-hidden rounded-xl bg-gray-100 shadow-lg">
               <img
                 src={product.images[selectedImage]}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            
+            {/* Thumbnail Images */}
+            <div className="grid grid-cols-5 gap-3">
               {product.images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
-                    selectedImage === index ? 'border-primary' : 'border-gray-200'
+                  className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105 ${
+                    selectedImage === index 
+                      ? 'border-primary shadow-md' 
+                      : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <img
                     src={image}
-                    alt={`${product.name} ${index + 1}`}
+                    alt={`${product.name} view ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </button>
               ))}
             </div>
+
+            {/* Image Counter */}
+            <div className="text-center text-sm text-muted-foreground">
+              {selectedImage + 1} of {product.images.length} photos
+            </div>
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="space-y-8">
+            {/* Header Info */}
             <div>
-              <Badge variant="secondary" className="mb-2">
+              <Badge variant="secondary" className="mb-3">
                 {product.category}
               </Badge>
-              <h1 className="text-3xl font-bold text-foreground mb-2">
+              <h1 className="text-4xl font-bold text-foreground mb-4">
                 {product.name}
               </h1>
               
               {/* Rating */}
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-3 mb-4">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-4 w-4 ${
-                        i < Math.floor(product.rating)
+                      className={`h-5 w-5 ${
+                        i < Math.floor(averageRating)
                           ? 'text-yellow-400 fill-current'
                           : 'text-gray-300'
                       }`}
                     />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">
-                  {product.rating} ({product.reviewCount} reviews)
+                <span className="text-muted-foreground">
+                  {averageRating.toFixed(1)} ({product.reviewCount} reviews)
                 </span>
               </div>
 
               {/* Price */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl font-bold text-primary">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-4xl font-bold text-primary">
                   ${product.price}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-xl text-muted-foreground line-through">
+                  <span className="text-2xl text-muted-foreground line-through">
                     ${product.originalPrice}
                   </span>
                 )}
                 {product.originalPrice && (
-                  <Badge variant="destructive">
+                  <Badge variant="destructive" className="text-sm">
                     Save ${product.originalPrice - product.price}
                   </Badge>
                 )}
@@ -151,22 +230,22 @@ const ProductDetail = () => {
               <div className="mb-6">
                 {product.inStock ? (
                   <div className="flex items-center gap-2 text-green-600">
-                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                    <span>In Stock ({product.stockCount} available)</span>
+                    <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+                    <span className="font-medium">In Stock ({product.stockCount} available)</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 text-red-600">
-                    <div className="w-2 h-2 bg-red-600 rounded-full"></div>
-                    <span>Out of Stock</span>
+                    <div className="w-3 h-3 bg-red-600 rounded-full"></div>
+                    <span className="font-medium">Out of Stock</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Quantity & Add to Cart */}
+            {/* Quick Actions */}
             <div className="space-y-4">
               <div className="flex items-center gap-4">
-                <span className="font-medium">Quantity:</span>
+                <span className="font-medium text-lg">Quantity:</span>
                 <div className="flex items-center border rounded-lg">
                   <Button
                     variant="ghost"
@@ -176,7 +255,7 @@ const ProductDetail = () => {
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="px-4 py-2 min-w-[60px] text-center">
+                  <span className="px-6 py-2 min-w-[80px] text-center font-medium">
                     {quantity}
                   </span>
                   <Button
@@ -191,77 +270,227 @@ const ProductDetail = () => {
               </div>
 
               <div className="flex gap-3">
-                <Button variant="furniture" className="flex-1" disabled={!product.inStock}>
-                  <ShoppingCart className="h-4 w-4 mr-2" />
+                <Button variant="furniture" size="lg" className="flex-1" disabled={!product.inStock}>
+                  <ShoppingCart className="h-5 w-5 mr-2" />
                   Add to Cart
                 </Button>
                 <Button variant="outline" size="icon">
-                  <Heart className="h-4 w-4" />
+                  <Heart className="h-5 w-5" />
                 </Button>
                 <Button variant="outline" size="icon">
-                  <Share2 className="h-4 w-4" />
+                  <Share2 className="h-5 w-5" />
                 </Button>
               </div>
             </div>
 
-            {/* Features */}
+            {/* Features Highlights */}
             <Card>
-              <CardContent className="p-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                   <div className="flex flex-col items-center">
-                    <Truck className="h-6 w-6 text-primary mb-2" />
-                    <span className="text-sm font-medium">Free Shipping</span>
-                    <span className="text-xs text-muted-foreground">On orders over $500</span>
+                    <Truck className="h-8 w-8 text-primary mb-3" />
+                    <span className="font-semibold">Free Shipping</span>
+                    <span className="text-sm text-muted-foreground">On orders over $500</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <Shield className="h-6 w-6 text-primary mb-2" />
-                    <span className="text-sm font-medium">5-Year Warranty</span>
-                    <span className="text-xs text-muted-foreground">Quality guarantee</span>
+                    <Shield className="h-8 w-8 text-primary mb-3" />
+                    <span className="font-semibold">5-Year Warranty</span>
+                    <span className="text-sm text-muted-foreground">Quality guarantee</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <RotateCcw className="h-6 w-6 text-primary mb-2" />
-                    <span className="text-sm font-medium">30-Day Returns</span>
-                    <span className="text-xs text-muted-foreground">Easy returns</span>
+                    <RotateCcw className="h-8 w-8 text-primary mb-3" />
+                    <span className="font-semibold">30-Day Returns</span>
+                    <span className="text-sm text-muted-foreground">Easy returns</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </div>
 
-            {/* Description */}
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Description</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {product.description}
-              </p>
-            </div>
+        {/* Detailed Information Tabs */}
+        <div className="mt-16">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="specifications">Specifications</TabsTrigger>
+              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
+            </TabsList>
 
-            {/* Features List */}
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Key Features</h3>
-              <ul className="space-y-2">
-                {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
-                    <span className="text-muted-foreground">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <Separator />
-
-            {/* Specifications */}
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Specifications</h3>
-              <div className="space-y-3">
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-2 border-b">
-                    <span className="font-medium">{key}:</span>
-                    <span className="text-muted-foreground">{value}</span>
+            <TabsContent value="overview" className="mt-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Product Description</h3>
+                  <div className="prose prose-gray max-w-none">
+                    <p className="text-muted-foreground leading-relaxed mb-4">
+                      {product.longDescription}
+                    </p>
                   </div>
-                ))}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Key Features</h3>
+                  <ul className="space-y-3">
+                    {product.features.map((feature, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            </TabsContent>
+
+            <TabsContent value="specifications" className="mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Product Specifications</h3>
+                  <div className="space-y-4">
+                    {Object.entries(product.specifications).map(([key, value]) => (
+                      <div key={key} className="flex justify-between py-3 border-b border-gray-200">
+                        <span className="font-medium text-foreground">{key}:</span>
+                        <span className="text-muted-foreground">{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Quality Assurance</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Award className="h-6 w-6 text-primary" />
+                      <span className="font-medium">Premium Materials</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Users className="h-6 w-6 text-primary" />
+                      <span className="font-medium">Expert Craftsmanship</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Shield className="h-6 w-6 text-primary" />
+                      <span className="font-medium">Quality Guaranteed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="reviews" className="mt-8">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-bold">Customer Reviews</h3>
+                  <Button variant="outline">Write a Review</Button>
+                </div>
+                
+                <div className="space-y-6">
+                  {product.reviews.map((review) => (
+                    <Card key={review.id}>
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div>
+                            <h4 className="font-semibold">{review.user}</h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className="flex items-center">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`h-4 w-4 ${
+                                      i < review.rating
+                                        ? 'text-yellow-400 fill-current'
+                                        : 'text-gray-300'
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                              <span className="text-sm text-muted-foreground">
+                                {new Date(review.date).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <h5 className="font-medium mb-2">{review.title}</h5>
+                        <p className="text-muted-foreground">{review.comment}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="shipping" className="mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Shipping Information</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Truck className="h-6 w-6 text-primary" />
+                      <div>
+                        <span className="font-medium">Free Shipping</span>
+                        <p className="text-sm text-muted-foreground">On orders over $500</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Clock className="h-6 w-6 text-primary" />
+                      <div>
+                        <span className="font-medium">Delivery Time</span>
+                        <p className="text-sm text-muted-foreground">5-7 business days</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-6 w-6 text-primary" />
+                      <div>
+                        <span className="font-medium">Tracking</span>
+                        <p className="text-sm text-muted-foreground">Real-time updates</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Returns & Warranty</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3">
+                      <RotateCcw className="h-6 w-6 text-primary" />
+                      <div>
+                        <span className="font-medium">30-Day Returns</span>
+                        <p className="text-sm text-muted-foreground">Easy return process</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Shield className="h-6 w-6 text-primary" />
+                      <div>
+                        <span className="font-medium">5-Year Warranty</span>
+                        <p className="text-sm text-muted-foreground">Full coverage</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        {/* Related Products */}
+        <div className="mt-16">
+          <h3 className="text-2xl font-bold mb-6">You Might Also Like</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {product.relatedProducts.map((relatedProduct) => (
+              <Card key={relatedProduct.id} className="hover:shadow-lg transition-shadow">
+                <div className="aspect-square overflow-hidden rounded-t-lg">
+                  <img
+                    src={relatedProduct.image}
+                    alt={relatedProduct.name}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <Badge variant="secondary" className="mb-2">
+                    {relatedProduct.category}
+                  </Badge>
+                  <h4 className="font-semibold mb-2">{relatedProduct.name}</h4>
+                  <p className="text-2xl font-bold text-primary">${relatedProduct.price}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
