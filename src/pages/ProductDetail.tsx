@@ -46,8 +46,6 @@ const ProductDetail = () => {
       tableImage
     ],
     category: 'Chairs',
-    rating: 4.8,
-    reviewCount: 124,
     inStock: true,
     stockCount: 15,
     description: 'This elegant wooden chair combines traditional craftsmanship with modern design. Made from sustainably sourced oak wood, it features a comfortable cushioned seat and ergonomic backrest that provides excellent support for long periods of sitting.',
@@ -71,37 +69,10 @@ The ergonomic design ensures proper posture support, making it ideal for dining 
       'Weight': '25 lbs',
       'Material': 'Oak wood, premium fabric',
       'Color': 'Natural oak with cream cushion',
-      'Assembly': 'Required (tools included)',
       'Weight Capacity': '250 lbs',
-      'Warranty': '5 years',
-      'Origin': 'Handcrafted in USA'
+      'Warranty': '5 years'
     },
-    reviews: [
-      {
-        id: 1,
-        user: 'Sarah M.',
-        rating: 5,
-        date: '2024-01-15',
-        title: 'Beautiful and Comfortable',
-        comment: 'This chair exceeded my expectations. The quality is outstanding and it\'s incredibly comfortable. Perfect for our dining room!'
-      },
-      {
-        id: 2,
-        user: 'Michael R.',
-        rating: 4,
-        date: '2024-01-10',
-        title: 'Great Quality',
-        comment: 'Solid construction and beautiful finish. Assembly was straightforward. Very happy with this purchase.'
-      },
-      {
-        id: 3,
-        user: 'Jennifer L.',
-        rating: 5,
-        date: '2024-01-05',
-        title: 'Perfect Addition',
-        comment: 'The chair looks even better in person. The wood grain is beautiful and the cushion is very comfortable. Highly recommend!'
-      }
-    ],
+
     relatedProducts: [
       {
         id: '2',
@@ -124,7 +95,7 @@ The ergonomic design ensures proper posture support, making it ideal for dining 
     setQuantity(Math.max(1, Math.min(product.stockCount, quantity + change)));
   };
 
-  const averageRating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
+
 
   return (
     <div className="min-h-screen py-8">
@@ -190,24 +161,7 @@ The ergonomic design ensures proper posture support, making it ideal for dining 
                 {product.name}
               </h1>
               
-              {/* Rating */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-5 w-5 ${
-                        i < Math.floor(averageRating)
-                          ? 'text-yellow-400 fill-current'
-                          : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-muted-foreground">
-                  {averageRating.toFixed(1)} ({product.reviewCount} reviews)
-                </span>
-              </div>
+              
 
               {/* Price */}
               <div className="flex items-center gap-4 mb-6">
@@ -311,11 +265,9 @@ The ergonomic design ensures proper posture support, making it ideal for dining 
         {/* Detailed Information Tabs */}
         <div className="mt-16">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
-              <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-8">
@@ -375,97 +327,7 @@ The ergonomic design ensures proper posture support, making it ideal for dining 
               </div>
             </TabsContent>
 
-            <TabsContent value="reviews" className="mt-8">
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold">Customer Reviews</h3>
-                  <Button variant="outline">Write a Review</Button>
-                </div>
-                
-                <div className="space-y-6">
-                  {product.reviews.map((review) => (
-                    <Card key={review.id}>
-                      <CardContent className="p-6">
-                        <div className="flex items-start justify-between mb-4">
-                          <div>
-                            <h4 className="font-semibold">{review.user}</h4>
-                            <div className="flex items-center gap-2 mt-1">
-                              <div className="flex items-center">
-                                {[...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    className={`h-4 w-4 ${
-                                      i < review.rating
-                                        ? 'text-yellow-400 fill-current'
-                                        : 'text-gray-300'
-                                    }`}
-                                  />
-                                ))}
-                              </div>
-                              <span className="text-sm text-muted-foreground">
-                                {new Date(review.date).toLocaleDateString()}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <h5 className="font-medium mb-2">{review.title}</h5>
-                        <p className="text-muted-foreground">{review.comment}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
 
-            <TabsContent value="shipping" className="mt-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-2xl font-bold mb-6">Shipping Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <Truck className="h-6 w-6 text-primary" />
-                      <div>
-                        <span className="font-medium">Free Shipping</span>
-                        <p className="text-sm text-muted-foreground">On orders over $500</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Clock className="h-6 w-6 text-primary" />
-                      <div>
-                        <span className="font-medium">Delivery Time</span>
-                        <p className="text-sm text-muted-foreground">5-7 business days</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <MapPin className="h-6 w-6 text-primary" />
-                      <div>
-                        <span className="font-medium">Tracking</span>
-                        <p className="text-sm text-muted-foreground">Real-time updates</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold mb-6">Returns & Warranty</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <RotateCcw className="h-6 w-6 text-primary" />
-                      <div>
-                        <span className="font-medium">30-Day Returns</span>
-                        <p className="text-sm text-muted-foreground">Easy return process</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Shield className="h-6 w-6 text-primary" />
-                      <div>
-                        <span className="font-medium">5-Year Warranty</span>
-                        <p className="text-sm text-muted-foreground">Full coverage</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
           </Tabs>
         </div>
 

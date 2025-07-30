@@ -142,38 +142,7 @@ const Categories = () => {
         </div>
       </section>
 
-      {/* Category Highlights */}
-      <section className="py-16 bg-cream">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Each category is carefully curated to bring you the best furniture options for every room in your home
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => (
-              <Card key={category.id} className="text-center border-0 shadow-card hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br ${category.color} flex items-center justify-center`}>
-                    <category.icon className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">{category.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-4">{category.description}</p>
-                  <Button asChild variant="outline" size="sm" className="w-full">
-                    <Link to={`/products?category=${category.id}`}>
-                      View All
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* CTA Section */}
       <section className="py-16 bg-gradient-hero text-white">

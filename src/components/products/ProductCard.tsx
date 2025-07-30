@@ -48,9 +48,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {product.name}
           </h3>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl font-bold text-primary">
-              ${product.price}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-primary">
+                ${product.price}
+              </span>
+              <span className="text-lg text-muted-foreground line-through">
+                ${Math.round(product.price * 1.3)}
+              </span>
+            </div>
             <div className="flex items-center">
               <span className="text-sm text-muted-foreground">
                 ★ {product.rating}

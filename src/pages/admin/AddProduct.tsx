@@ -25,7 +25,6 @@ const AddProduct = () => {
     description: '',
     category: '',
     price: '',
-    originalPrice: '',
     stock: '',
     status: 'active',
     inStock: true,
@@ -203,7 +202,7 @@ const AddProduct = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="price">Price *</Label>
                       <Input
@@ -213,16 +212,6 @@ const AddProduct = () => {
                         onChange={(e) => handleInputChange('price', e.target.value)}
                         placeholder="299"
                         required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="originalPrice">Original Price</Label>
-                      <Input
-                        id="originalPrice"
-                        type="number"
-                        value={formData.originalPrice}
-                        onChange={(e) => handleInputChange('originalPrice', e.target.value)}
-                        placeholder="349"
                       />
                     </div>
                     <div>

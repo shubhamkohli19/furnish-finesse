@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
-import { Search, Filter, Grid, List } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import ProductCard from '@/components/products/ProductCard';
 import chairImage from '@/assets/chair-1.jpg';
 import tableImage from '@/assets/table-1.jpg';
@@ -12,7 +12,6 @@ import sofaImage from '@/assets/sofa-1.jpg';
 
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
@@ -221,23 +220,7 @@ const Products = () => {
                 </SelectContent>
               </Select>
 
-              {/* View Mode */}
-              <div className="flex gap-2">
-                <Button
-                  variant={viewMode === 'grid' ? 'furniture' : 'outline'}
-                  size="icon"
-                  onClick={() => setViewMode('grid')}
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'furniture' : 'outline'}
-                  size="icon"
-                  onClick={() => setViewMode('list')}
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
+
             </div>
           </CardContent>
         </Card>
@@ -250,11 +233,7 @@ const Products = () => {
         </div>
 
         {/* Products Grid */}
-        <div className={`grid gap-6 ${
-          viewMode === 'grid' 
-            ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-            : 'grid-cols-1'
-        }`}>
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
